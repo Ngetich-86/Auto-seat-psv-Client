@@ -1,4 +1,4 @@
-import "./testimonial.scss";
+import "./Testimonial.scss";
 
 const testimonials = [
   {
