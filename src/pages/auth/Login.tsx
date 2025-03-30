@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { loginAPI, LoginFormData } from "../../features/login/loginAPI";
+import { LoginFormData } from "../../features/login/loginAPI";
 import { Link, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify"; // Import react-toastify
 import "react-toastify/dist/ReactToastify.css"; // Import toast styles
@@ -24,7 +24,6 @@ const schema = yup.object().shape({
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [loginUser] = loginAPI.useLoginUserMutation();
   const [isLoggingIn, setIsLoggingIn] = useState(false); // login loader
 
   const {

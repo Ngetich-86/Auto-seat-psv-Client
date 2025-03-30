@@ -10,7 +10,8 @@ const OTPForm = () => {
   const [activateAccount] = usersAPI.useActivateAccountMutation();
   const [resendActivationCode] = usersAPI.useResendActivationCodeMutation();
   const [isLoading, setIsLoading] = useState({ activating: false, resending: false });
-  const userId = useSelector((state: RootState) => state.user.user?.user_id ?? 0);
+  const user = useSelector((state: RootState) => state.user.user);
+  const userEmail = user?.email ?? "";
 
   const handleApiResponse = (response: any, successMessage: string) => {
     if ("error" in response) {
@@ -25,7 +26,7 @@ const OTPForm = () => {
   const onOtpSubmit = async (activationCode: string | number) => {
     setIsLoading((prev) => ({ ...prev, activating: true }));
     try {
-      const response = await activateAccount({ activationCode, user_id: userId });
+      const response = await activateAccount({ email: userEmail, code: activationCode.toString() });
       handleApiResponse(response, "Account Activated Successfully");
     } catch {
       toast.error("An error occurred while processing your request.");
@@ -50,7 +51,7 @@ const OTPForm = () => {
     e.preventDefault();
     setIsLoading((prev) => ({ ...prev, resending: true }));
     try {
-      const response = await resendActivationCode({ user_id: userId });
+      const response = await resendActivationCode({ email: userEmail });
       handleApiResponse(response, "Activation Code sent successfully");
     } catch {
       toast.error("An error occurred while resending the activation code.");

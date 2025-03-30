@@ -1,4 +1,4 @@
-import { LayoutDashboard,BarChart, Book, User, Car, CreditCard, Ticket, TicketCheck, LogOut, Menu } from "lucide-react";
+import { BarChart, Book, User, Car } from "lucide-react";
 
 export type DrawerData = {
     id: number;

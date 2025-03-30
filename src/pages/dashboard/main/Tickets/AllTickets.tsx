@@ -1,5 +1,4 @@
 import { useGetTicketsQuery } from "../../../../features/tickets/ticketsAPI";
-import { format } from "date-fns";
 
 function AllTickets() {
   // Fetch all bookings using the API hook
@@ -8,10 +7,6 @@ function AllTickets() {
   console.log("Bookings:", bookings);
   console.log("Loading:", isLoading);
   console.log("Error:", error);
-
-  // Function to format ISO date strings
-  const formatDate = (isoDate: string | number | Date) =>
-    format(new Date(isoDate), "MM/dd/yyyy HH:mm:ss");
 
   return (
     <div className="overflow-x-auto bg-gradient-to-r from-blue-50  via-blue-100 to-white min-h-screen shadow-lg">

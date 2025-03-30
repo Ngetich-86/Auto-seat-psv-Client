@@ -10,7 +10,7 @@ import { vehicleAPI } from "../features/vehicles/vehicleAPI";
 import { ticketAPI } from "../features/tickets/ticketsAPI";
 import { seatAPI } from "../features/seats/seatsAPI";
 import { paymentAPI } from "../features/payments/paymentAPI";
-import authSlice from "../features/auth/authslice"; // Import your auth slice
+import authSlice from "../features/auth/authSlice"; // Import your auth slice
 
 const persistConfig = {
   key: 'root',

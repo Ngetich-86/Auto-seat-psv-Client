@@ -98,6 +98,20 @@ export const usersAPI = createApi({
             }),
             providesTags: ['Users'],
         }),
+        activateAccount: builder.mutation<{ success: boolean; message: string }, { email: string; code: string }>({
+            query: ({ email, code }) => ({
+                url: 'activate-account',
+                method: 'POST',
+                body: { email, code },
+            }),
+        }),
+        resendActivationCode: builder.mutation<{ success: boolean; message: string }, { email: string }>({
+            query: ({ email }) => ({
+                url: 'resend-activation-code',
+                method: 'POST',
+                body: { email },
+            }),
+        }),
         updateUserV2: builder.mutation<TUser, { userId: number; userData: Partial<TUser> }>({
             query: ({ userId, userData }) => ({
                 url: `v2/users/${userId}`,
@@ -132,6 +146,8 @@ export const {
     useFilterUsersQuery,
     useUpdateUserV2Mutation,
     useDeleteUserV2Mutation,
+    useActivateAccountMutation,
+    useResendActivationCodeMutation,
 } = usersAPI;
 
 
