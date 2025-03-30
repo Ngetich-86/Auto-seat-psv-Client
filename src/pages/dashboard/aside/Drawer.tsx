@@ -45,7 +45,7 @@ function SideNav() {
   };
 
   // Close drawer when clicking outside
-  const handleClickOutside = (e: React.MouseEvent) => {
+  const handleClickOutside = () => {
     if (isOpen && window.innerWidth < 1024) {
       setIsOpen(false);
     }
