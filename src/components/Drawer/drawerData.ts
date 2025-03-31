@@ -20,25 +20,18 @@ export type DrawerData = {
 // adminOnly false - show to all users
 // adminOnly true - show only to admins 
 export const drawerData: DrawerData[] = [
+    // {
+    //     id: 0,
+    //     name: 'Dashboard',
+    //     icon: LayoutDashboard,
+    //     link: 'dashboard',
+    //     adminOnly: false
+    // },
     {
-        id: 0,
-        name: 'Dashboard',
-        icon: LayoutDashboard,
-        link: 'dashboard',
-        adminOnly: false
-    },
-    {
-        id: 1,
-        name: 'Profile',
-        icon: UserCircle,
-        link: 'profile',
-        adminOnly: false
-    },
-    {
-        id: 2,
-        name: 'Analytics',
-        icon: BarChart,
-        link: 'analytics',
+        id: 4,
+        name: 'Book Now',
+        icon: CalendarCheck,
+        link: 'booking_form',
         adminOnly: false
     },
     {
@@ -47,13 +40,6 @@ export const drawerData: DrawerData[] = [
         icon: ClipboardList,
         link: 'view_all_bookings',
         adminOnly: true
-    },
-    {
-        id: 4,
-        name: 'Book Now',
-        icon: CalendarCheck,
-        link: 'booking_form',
-        adminOnly: false
     },
     {
         id: 5,
@@ -70,11 +56,25 @@ export const drawerData: DrawerData[] = [
         adminOnly: true
     },
     {
+        id: 1,
+        name: 'Profile',
+        icon: UserCircle,
+        link: 'profile',
+        adminOnly: false
+    },
+    {
         id: 7,
         name: 'Manage Users',
         icon: Users,
         link: 'users',
         adminOnly: true
+    },
+    {
+        id: 2,
+        name: 'Analytics',
+        icon: BarChart,
+        link: 'analytics',
+        adminOnly: false
     },
     {
         id: 8,
