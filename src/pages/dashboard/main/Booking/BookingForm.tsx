@@ -82,7 +82,7 @@ const BookingForm: React.FC = () => {
 
       {/* Filters Section - Full Width */}
       <div className="w-full max-w-5xl mx-auto mb-4 p-4">
-        <form className="grid grid-cols-5 gap-2 bg-white p-4 rounded-lg shadow-md">
+        <form className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 bg-white p-4 rounded-lg shadow-md">
           <div>
             <label htmlFor="departure" className="block text-sm font-medium">Departure:</label>
             <select id="departure" value={departure} onChange={(e) => setDeparture(e.target.value)}
@@ -142,7 +142,7 @@ const BookingForm: React.FC = () => {
         {filteredVehicles.length ? (
           <div className="flex flex-col items-center w-full px-4">
             {/* Pagination Arrows */}
-            <div className="flex justify-between w-full max-w-5xl px-4 mb-2">
+            <div className="flex justify-between items-center w-full max-w-5xl px-4 mb-2">
               <button
                 onClick={prevPage}
                 disabled={currentPage === 0}
@@ -150,7 +150,9 @@ const BookingForm: React.FC = () => {
               >
                 &larr;
               </button>
-              <p className="text-white text-sm">Page {currentPage + 1} of {totalPages}</p>
+              <p className="text-white text-sm">
+                Page {currentPage + 1} of {totalPages}
+              </p>
               <button
                 onClick={nextPage}
                 disabled={currentPage >= totalPages - 1}
@@ -161,7 +163,7 @@ const BookingForm: React.FC = () => {
             </div>
 
             {/* Vehicle Grid (3x2 layout, full visibility) */}
-            <div className="grid grid-cols-3 grid-rows-1 gap-2 w-full max-w-1xl">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-7xl mx-auto">
               {displayedVehicles.map((vehicle, index) => {
                 const remainingSeats = Math.max((vehicle.capacity - 1) - (Number(vehicle.booked_Seats) || 0), 0);
 
@@ -175,33 +177,41 @@ const BookingForm: React.FC = () => {
                     }`}
                     onClick={() => setSelectedVehicle(vehicle)}
                   >
-                    <img src={vehicle.image_url} alt={vehicle.vehicle_name} className="w-full h-24 object-cover rounded-lg" />
-                    <h3 className="text-sm font-semibold text-gray-800 mt-2">{vehicle.vehicle_name}</h3>
-                    <p className="text-xs text-gray-700">{vehicle.vehicle_type} | {vehicle.capacity} Seats</p>
-                    <p className="text-xs text-gray-700">Booked: {vehicle.booked_Seats || 0} | Remaining: {remainingSeats}</p>
-                    <p className="text-xs text-gray-700">Reg No: {vehicle.registration_number}</p>
-                    <p className="text-xs text-gray-700">License: {vehicle.license_plate}</p>
-                    <p className="text-xs text-gray-700">From: {vehicle.departure} → To: {vehicle.destination}</p>
-                    <p className="text-xs text-gray-700">
-                      <strong>Departure Time: {vehicle.departure_time || "Not Available"}</strong>
-                    </p>
-                    <p className="text-xs text-gray-700"><strong>Cost: {vehicle.cost}</strong></p>
-                    {/* Availability Tag */}
-                    <div className={`text-xs font-extrabold mt-1 ${
-                      remainingSeats > 0 ? "text-green-600" : "text-red-600"
-                    }`}>
-                      {remainingSeats > 0 ? "Available" : "Unavailable"}
+                    <img 
+                      src={vehicle.image_url} 
+                      alt={vehicle.vehicle_name} 
+                      className="w-full h-40 sm:h-32 lg:h-24 object-cover rounded-lg" 
+                    />
+                    <div className="mt-2 space-y-1">
+                      <h3 className="text-base sm:text-sm font-semibold text-gray-800">{vehicle.vehicle_name}</h3>
+                      <p className="text-sm sm:text-xs text-gray-700">{vehicle.vehicle_type} | {vehicle.capacity} Seats</p>
+                      <p className="text-sm sm:text-xs text-gray-700">Booked: {vehicle.booked_Seats || 0} | Remaining: {remainingSeats}</p>
+                      <p className="text-sm sm:text-xs text-gray-700">Reg No: {vehicle.registration_number}</p>
+                      <p className="text-sm sm:text-xs text-gray-700">License: {vehicle.license_plate}</p>
+                      <p className="text-sm sm:text-xs text-gray-700">From: {vehicle.departure} → To: {vehicle.destination}</p>
+                      <p className="text-sm sm:text-xs text-gray-700">
+                        <strong>Departure Time: {vehicle.departure_time || "Not Available"}</strong>
+                      </p>
+                      <p className="text-sm sm:text-xs text-gray-700"><strong>Cost: {vehicle.cost}</strong></p>
+                      
+                      {/* Availability Tag */}
+                      <div className={`text-sm sm:text-xs font-extrabold ${
+                        remainingSeats > 0 ? "text-green-600" : "text-red-600"
+                      }`}>
+                        {remainingSeats > 0 ? "Available" : "Unavailable"}
+                      </div>
+                      
+                      <button
+                        type="button"
+                        onClick={() => handleMapSeatModal(vehicle)}
+                        className={`btn w-full ${
+                          remainingSeats > 0 ? "bg-blue-600 hover:bg-blue-700" : "bg-gray-400 cursor-not-allowed"
+                        } text-white border-none text-sm sm:text-xs px-4 py-2 mt-2`}
+                        disabled={remainingSeats === 0}
+                      >
+                        {remainingSeats > 0 ? "Select Seat" : "Fully Booked"}
+                      </button>
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => handleMapSeatModal(vehicle)}
-                      className={`btn ${
-                        remainingSeats > 0 ? "bg-blue-600 hover:bg-blue-700" : "bg-gray-400 cursor-not-allowed"
-                      } text-white border-none text-xs px-4 py-1 mt-1 w-full`}
-                      disabled={remainingSeats === 0}
-                    >
-                      {remainingSeats > 0 ? "Select Seat" : "Fully Booked"}
-                    </button>
                   </div>
                 );
               })}
