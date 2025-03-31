@@ -28,10 +28,19 @@ const schema = yup.object().shape({
   last_name: yup.string().required("Last name is required"),
   email: yup.string().email("Invalid email address").required("Email is required"),
   phone_number: yup.string().required("Phone number is required"),
-  password: yup.string().min(6, "Password must be at least 6 characters"),
-  confirm_password: yup
-    .string()
-    .oneOf([yup.ref("password")], "Passwords must match"),
+  password: yup.string()
+    .optional()
+    .transform(value => value === "" ? undefined : value)
+    .test("password", "Password must be at least 6 characters", value => {
+      if (!value) return true;
+      return value.length >= 6;
+    }),
+  confirm_password: yup.string()
+    .optional()
+    .transform(value => value === "" ? undefined : value)
+    .test("passwords-match", "Passwords must match", function(value) {
+      return !this.parent.password || value === this.parent.password;
+    })
 });
 
 const Profile = () => {
@@ -94,24 +103,36 @@ const Profile = () => {
         }
       }
   
-      // Update profile data (excluding password)
-      const payload = {
+      // Create update payload without password
+      const updatePayload = {
         id: user_id,
-        ...formData,
+        first_name: formData.first_name,
+        last_name: formData.last_name,
+        email: formData.email,
+        phone_number: formData.phone_number,
         image_url: imageUrl,
-        password: undefined, // Exclude password from the main update payload
       };
   
-      await updateUser(payload).unwrap();
+      // Update profile data
+      await updateUser(updatePayload).unwrap();
   
-      // If password is provided, update it separately
-      if (formData.password) {
-        await axios.put(`${ApiDomain}v2/users/${user_id}/password`, { password: formData.password });
+      // Only update password if both password fields are filled
+      if (formData.password && formData.confirm_password) {
+        try {
+          await axios.put(`${ApiDomain}v2/users/${user_id}/password`, { 
+            password: formData.password 
+          });
+          toast.success("Profile and password updated successfully!");
+        } catch (passwordError) {
+          toast.error("Profile updated but password update failed.");
+          console.error("Password update error:", passwordError);
+        }
+      } else {
+        toast.success("Profile updated successfully!");
       }
   
       setIsEditMode(false);
       refetch();
-      toast.success("Profile updated successfully!");
     } catch (err) {
       console.error("Error updating user", err);
       toast.error("Failed to update profile. Please try again.");
@@ -214,13 +235,29 @@ const Profile = () => {
                   {errors.phone_number && <p className="text-red-500 text-sm">{errors.phone_number.message}</p>}
 
                   {/* Password */}
-                  <label className="text-gray-700 font-medium">Password</label>
-                  <input type="password" {...register("password")} className="input border-gray-300 w-full p-2 rounded-md" placeholder="New Password" />
+                  <label className="text-gray-700 font-medium">
+                    Password (Optional)
+                    <span className="text-sm text-gray-500 ml-1">Leave blank to keep current password</span>
+                  </label>
+                  <input 
+                    type="password" 
+                    {...register("password")} 
+                    className="input border-gray-300 w-full p-2 rounded-md" 
+                    placeholder="New Password (Optional)" 
+                  />
                   {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
 
                   {/* Confirm Password */}
-                  <label className="text-gray-700 font-medium">Confirm Password</label>
-                  <input type="password" {...register("confirm_password")} className="input border-gray-300 w-full p-2 rounded-md" placeholder="Confirm Password" />
+                  <label className="text-gray-700 font-medium">
+                    Confirm Password
+                    <span className="text-sm text-gray-500 ml-1">(If changing password)</span>
+                  </label>
+                  <input 
+                    type="password" 
+                    {...register("confirm_password")} 
+                    className="input border-gray-300 w-full p-2 rounded-md" 
+                    placeholder="Confirm New Password (Optional)" 
+                  />
                   {errors.confirm_password && <p className="text-red-500 text-sm">{errors.confirm_password.message}</p>}
                 </div>
 
