@@ -7,7 +7,6 @@ import {
   Users, 
   Archive, 
   LogOut,
-  LayoutDashboard
 } from "lucide-react";
 
 export type DrawerData = {
@@ -20,57 +19,50 @@ export type DrawerData = {
 // adminOnly false - show to all users
 // adminOnly true - show only to admins 
 export const drawerData: DrawerData[] = [
-    // {
-    //     id: 0,
-    //     name: 'Dashboard',
-    //     icon: LayoutDashboard,
-    //     link: 'dashboard',
-    //     adminOnly: false
-    // },
     {
-        id: 4,
+        id: 1,
         name: 'Book Now',
         icon: CalendarCheck,
         link: 'booking_form',
         adminOnly: false
     },
     {
-        id: 3,
+        id: 2,
         name: 'All Bookings',
         icon: ClipboardList,
         link: 'view_all_bookings',
         adminOnly: true
     },
     {
-        id: 5,
+        id: 3,
         name: 'My Bookings',
         icon: ClipboardList,
         link: 'my_bookings',
         adminOnly: false
     },
     {
-        id: 6,
+        id: 4,
         name: 'Manage Vehicles',
         icon: Car,
         link: 'vehicles',
         adminOnly: true
     },
     {
-        id: 1,
+        id: 5,
         name: 'Profile',
         icon: UserCircle,
         link: 'profile',
         adminOnly: false
     },
     {
-        id: 7,
+        id: 6,
         name: 'Manage Users',
         icon: Users,
         link: 'users',
         adminOnly: true
     },
     {
-        id: 2,
+        id: 7,
         name: 'Analytics',
         icon: BarChart,
         link: 'analytics',
