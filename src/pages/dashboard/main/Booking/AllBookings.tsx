@@ -351,7 +351,7 @@ function AllBookings() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
-                  {filteredBookings.map((booking) => (
+                  {filteredBookings?.map((booking) => (
                     <tr key={booking.booking_id} className="hover:bg-gray-50 transition-colors">
                       <td className="px-4 py-3 text-sm text-gray-700">{booking.booking_id}</td>
                       <td className="px-4 py-3 text-sm text-gray-700">{booking.user_id}</td>
