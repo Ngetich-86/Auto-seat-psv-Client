@@ -4,12 +4,26 @@ import { RootState } from "../../../../app/store";
 import { format } from "date-fns";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import jsPDF from "jspdf"; // Import jsPDF
+import { useLocation } from 'react-router-dom';
 
 function MyBookings() {
+  const location = useLocation();
   const user = useSelector((state: RootState) => state.user);
   const userId = user.user?.user_id ?? 0;
+
+  useEffect(() => {
+    // Check if we're coming from a payment redirect
+    const fromPayment = new URLSearchParams(location.search).get('fromPayment');
+    
+    if (fromPayment === 'true') {
+      // Remove the query parameter
+      window.history.replaceState({}, '', location.pathname);
+      // Reload the page
+      window.location.reload();
+    }
+  }, [location]);
 
   const { data: userBookings, error, isLoading, refetch } = useGetUserBookingQuery(userId);
   const [deleteBooking] = useDeleteBookingVehicleMutation();
@@ -211,11 +225,16 @@ function MyBookings() {
                         <button
                           onClick={() => handleDownloadReceipt(booking)}
                           className={`bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600 transition-colors disabled:bg-blue-300 text-xs relative group ${
-                            booking.payment_status === "failed" || booking.payment_status === "pending" ? "cursor-not-allowed" : ""
+                            !booking.payment_status || booking.payment_status === 'N/A' || booking.payment_status !== 'completed' ? "cursor-not-allowed" : ""
                           }`}
                           aria-label="Download receipt"
-                          disabled={isDownloading === booking.booking_id || booking.payment_status === "failed" || booking.payment_status === "pending"}
-                          title={booking.payment_status === "failed" || booking.payment_status === "pending" ? "Ticket can only be downloaded after successful payment" : ""}
+                          disabled={
+                            isDownloading === booking.booking_id || 
+                            !booking.payment_status || 
+                            booking.payment_status === 'N/A' || 
+                            booking.payment_status !== 'completed'
+                          }
+                          title={booking.payment_status !== 'completed' ? "Ticket can only be downloaded after successful payment" : ""}
                         >
                           {isDownloading === booking.booking_id ? "Generating..." : "Download Ticket"}
                         </button>
