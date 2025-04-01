@@ -57,7 +57,10 @@ const Drawer: FC<DrawerProps> = ({ onToggle }) => {
     <div className="h-full flex flex-col text-white">
       {/* Drawer Header */}
       <div className="p-4 flex items-center justify-between border-b border-blue-800">
-        <h2 className="text-xl font-semibold">Menu</h2>
+        <div className="flex items-center gap-2">
+          <LayoutDashboard className="w-6 h-6" />
+          <h2 className="text-xl font-semibold">Dashboard</h2>
+        </div>
         <button 
           onClick={onToggle}
           className="lg:hidden p-2 hover:bg-blue-800 rounded-md transition-colors"
@@ -69,12 +72,6 @@ const Drawer: FC<DrawerProps> = ({ onToggle }) => {
       {/* Drawer Items */}
       <nav className="flex-1 overflow-y-auto">
         <ul className="px-2 py-4 space-y-1 list-none">
-          <li>
-            <Link to="/dashboard" className="flex items-center px-4 py-3 text-white hover:bg-blue-800 rounded-md transition-colors">
-              <LayoutDashboard className="w-5 h-5 mr-3" />
-              <span>Dashboard</span>
-            </Link>
-          </li>
           {/* Add more menu items here */}
           {drawerData.filter(filterDrawerItems).map((item) => (
             <li key={item.id}>
