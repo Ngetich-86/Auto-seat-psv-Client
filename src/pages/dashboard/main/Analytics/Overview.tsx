@@ -1,6 +1,7 @@
 import { usersAPI } from "../../../../features/users/usersAPI";
 import { bookingVehicleAPI } from "../../../../features/booking/bookingAPI";
 import { useEffect, useState } from "react";
+import { PulseLoader } from 'react-spinners';
 
 const Overview = () => {
   const { data: usersData, isLoading: usersLoading, error: usersError } = usersAPI.useGetUsersQuery();
@@ -64,7 +65,7 @@ const Overview = () => {
   if (usersLoading || bookingsLoading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+        <PulseLoader color="#3B82F6" size={15} margin={4} />
       </div>
     );
   }

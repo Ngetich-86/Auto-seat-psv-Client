@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useFetchCarSpecsQuery, Vehicle } from "../../../../features/vehicles/vehicleAPI";
 import MapSeatModal from "./MapSeat";
+import { PulseLoader } from 'react-spinners';
 
 const BookingForm: React.FC = () => {
   const [vehicleType, setVehicleType] = useState<string>("");
@@ -73,7 +74,11 @@ const BookingForm: React.FC = () => {
     setDepartureTime(""); // Clear departure time filter
   };
 
-  if (isLoading) return <p className="text-center text-gray-500">Loading vehicles...</p>;
+  if (isLoading) return (
+    <div className="flex items-center justify-center h-64">
+      <PulseLoader color="#3B82F6" size={15} margin={4} />
+    </div>
+  );
   if (isError) return <p className="text-center text-red-500">Failed to load vehicles. Please try again later.</p>;
 
   return (

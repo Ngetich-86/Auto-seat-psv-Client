@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useState, useEffect } from "react";
 import jsPDF from "jspdf"; // Import jsPDF
 import { useLocation } from 'react-router-dom';
+import { PulseLoader } from 'react-spinners';
 
 function MyBookings() {
   const location = useLocation();
@@ -126,7 +127,11 @@ function MyBookings() {
     }
   };
 
-  if (isLoading) return <div className="text-center text-gray-600">Loading...</div>;
+  if (isLoading) return (
+    <div className="flex items-center justify-center h-64">
+      <PulseLoader color="#3B82F6" size={15} margin={4} />
+    </div>
+  );
   if (error) return <div className="text-center text-red-500">Error loading bookings: {error.toString()}</div>;
 
   return (
@@ -216,27 +221,37 @@ function MyBookings() {
                       <div className="flex space-x-2">
                         <button
                           onClick={() => handleDeleteBooking(booking.booking_id)}
-                          className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600 transition-colors disabled:bg-red-300 text-xs"
-                          aria-label="Delete booking"
                           disabled={isDeleting === booking.booking_id}
+                          className={`px-3 py-1 rounded-md text-white ${
+                            isDeleting === booking.booking_id
+                              ? "bg-gray-400 cursor-not-allowed"
+                              : "bg-red-500 hover:bg-red-600"
+                          }`}
                         >
-                          {isDeleting === booking.booking_id ? "Deleting..." : "Delete"}
+                          {isDeleting === booking.booking_id ? (
+                            <PulseLoader color="#ffffff" size={8} margin={2} />
+                          ) : (
+                            "Delete"
+                          )}
                         </button>
                         <button
                           onClick={() => handleDownloadReceipt(booking)}
-                          className={`bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600 transition-colors disabled:bg-blue-300 text-xs relative group ${
-                            !booking.payment_status || booking.payment_status === 'N/A' || booking.payment_status !== 'completed' ? "cursor-not-allowed" : ""
-                          }`}
-                          aria-label="Download receipt"
                           disabled={
-                            isDownloading === booking.booking_id || 
-                            !booking.payment_status || 
-                            booking.payment_status === 'N/A' || 
-                            booking.payment_status !== 'completed'
+                            isDownloading === booking.booking_id ||
+                            booking.payment_status !== "completed"
                           }
-                          title={booking.payment_status !== 'completed' ? "Ticket can only be downloaded after successful payment" : ""}
+                          className={`px-3 py-1 rounded-md text-white ${
+                            isDownloading === booking.booking_id ||
+                            booking.payment_status !== "completed"
+                              ? "bg-gray-400 cursor-not-allowed"
+                              : "bg-blue-500 hover:bg-blue-600"
+                          }`}
                         >
-                          {isDownloading === booking.booking_id ? "Generating..." : "Download Ticket"}
+                          {isDownloading === booking.booking_id ? (
+                            <PulseLoader color="#ffffff" size={8} margin={2} />
+                          ) : (
+                            "Download Ticket"
+                          )}
                         </button>
                       </div>
                     </td>

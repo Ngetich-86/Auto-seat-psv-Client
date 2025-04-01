@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { Vehicle } from '../../../../features/vehicles/vehicleAPI';
 import { useCreateBookingVehicleMutation, useUpdateBookingVehicleMutation } from '../../../../features/booking/bookingAPI';
 import MpesaPaymentModal from './MpesaModal';
+import { ClipLoader } from 'react-spinners';
 
 interface MapSeatModalProps {
   vehicle: Vehicle;
@@ -80,7 +81,7 @@ const MapSeatModal: React.FC<MapSeatModalProps> = ({ vehicle, onClose, refetchVe
   useEffect(() => {
     const fetchBookedSeats = async () => {
       try {
-        const response = await fetch(`https://backenc-automated-psvbs-deployment.onrender.com/booked-seats?vehicle_id=${vehicle.registration_number}`);
+        const response = await fetch(`https://automatedseatservation-amhqc6atf9bxfzgq.southafricanorth-01.azurewebsites.net/booked-seats?vehicle_id=${vehicle.registration_number}`);
         const data = await response.json();
         setBookedSeats(data.booked_seats || []);
       } catch (error) {
@@ -158,7 +159,7 @@ const MapSeatModal: React.FC<MapSeatModalProps> = ({ vehicle, onClose, refetchVe
 
   const refetchBookedSeats = async () => {
     try {
-      const response = await fetch(`https://backenc-automated-psvbs-deployment.onrender.com/booked-seats?vehicle_id=${vehicle.registration_number}`);
+      const response = await fetch(`https://automatedseatservation-amhqc6atf9bxfzgq.southafricanorth-01.azurewebsites.net/booked-seats?vehicle_id=${vehicle.registration_number}`);
       const data = await response.json();
       setBookedSeats(data.booked_seats || []);
     } catch (error) {
@@ -208,13 +209,23 @@ const MapSeatModal: React.FC<MapSeatModalProps> = ({ vehicle, onClose, refetchVe
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <Toaster />
-      <div className="bg-white p-6 rounded-lg shadow-lg w-full md:w-3/4 lg:w-1/2 max-h-[90vh] overflow-y-auto">
-        <h2 className="text-xl font-bold mb-4 text-center">Select Seats</h2>
+      <div className="bg-white rounded-lg p-6 max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-bold text-gray-800">Select Seats</h2>
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700"
+          >
+            ✕
+          </button>
+        </div>
 
         {isLoading ? (
-          <p className="text-center text-gray-600">Loading seats...</p>
+          <div className="flex items-center justify-center h-64">
+            <ClipLoader color="#3B82F6" size={50} />
+          </div>
         ) : (
           <>
             {/* 🚗 Car-Shaped Seat Layout */}
@@ -225,14 +236,17 @@ const MapSeatModal: React.FC<MapSeatModalProps> = ({ vehicle, onClose, refetchVe
               {/* 🚗 Driver's Section with Steering Wheel */}
               <div className="w-full flex justify-center mb-2 relative">
                 <div className="relative flex flex-col items-center">
-                  <div className="w-12 h-12 bg-black rounded-full flex items-center justify-center text-white mb-1">
-                    🏎️
+                  <div className="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center text-white mb-1 relative">
+                    <span className="text-2xl" role="img" aria-label="steering wheel">🎡</span>
+                    <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 text-xs">
+                      Driver
+                    </div>
                   </div>
                   <button
                     className="p-2 w-10 h-10 rounded-lg border bg-gray-800 text-white font-semibold flex items-center justify-center"
                     disabled
                   >
-                    🚖 S1
+                    S1
                   </button>
                 </div>
               </div>
@@ -315,26 +329,32 @@ const MapSeatModal: React.FC<MapSeatModalProps> = ({ vehicle, onClose, refetchVe
               </div>
             </div>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="mt-6">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div className="mb-4">
-                <label htmlFor="booking_date" className="block mb-1">Booking Date</label>
+                <label htmlFor="booking_date" className="block mb-1 text-gray-500">Booking Date</label>
                 <input
                   type="date"
                   id="booking_date"
-                  {...register('booking_date')}
-                  className="border rounded w-full py-2 px-3 bg-gray-100 cursor-not-allowed"
-                  readOnly // Make the input read-only
+                  {...register("booking_date")}
+                  className="w-full p-2 border rounded bg-gray-100 text-gray-600 cursor-not-allowed"
+                  readOnly
                 />
+                {errors.booking_date && (
+                  <p className="text-red-500 text-sm">{errors.booking_date.message}</p>
+                )}
               </div>
+
               <div className="mb-4">
                 <label htmlFor="departure_date" className="block mb-1">Departure Date</label>
                 <input
                   type="date"
                   id="departure_date"
-                  {...register('departure_date')}
-                  className={`border rounded w-full py-2 px-3 ${errors.departure_date ? 'border-red-500' : ''}`}
+                  {...register("departure_date")}
+                  className="w-full p-2 border rounded"
                 />
-                {errors.departure_date && <p className="text-red-500 text-sm">{errors.departure_date.message}</p>}
+                {errors.departure_date && (
+                  <p className="text-red-500 text-sm">{errors.departure_date.message}</p>
+                )}
               </div>
 
               <div className="mt-4 text-center">
@@ -345,24 +365,36 @@ const MapSeatModal: React.FC<MapSeatModalProps> = ({ vehicle, onClose, refetchVe
 
               <div className="flex justify-between">
                 <button type="button" onClick={onClose} className="text-gray-600 hover:text-gray-800">Cancel</button>
-                <button type="submit" className={`bg-blue-500 text-white px-4 py-2 rounded ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={isSubmitting}>
-                  {isSubmitting ? 'Booking...' : 'Confirm Booking'}
+                <button
+                  type="submit"
+                  disabled={isSubmitting || selectedSeats.length === 0}
+                  className={`w-full py-2 px-4 rounded-md text-white font-semibold ${
+                    isSubmitting || selectedSeats.length === 0
+                      ? 'bg-gray-400 cursor-not-allowed'
+                      : 'bg-blue-600 hover:bg-blue-700'
+                  }`}
+                >
+                  {isSubmitting ? (
+                    <ClipLoader color="#ffffff" size={24} />
+                  ) : (
+                    'Book Selected Seats'
+                  )}
                 </button>
               </div>
             </form>
           </>
         )}
-      </div>
 
-      {showPaymentModal && bookingId && (
-        <MpesaPaymentModal
-          bookingId={bookingId}
-          amount={totalAmount}
-          onClose={() => setShowPaymentModal(false)}
-          onPaymentSuccess={handlePaymentSuccess}
-          onPaymentFailure={handlePaymentFailure}
-        />
-      )}
+        {showPaymentModal && bookingId && (
+          <MpesaPaymentModal
+            bookingId={bookingId}
+            amount={totalAmount}
+            onClose={() => setShowPaymentModal(false)}
+            onPaymentSuccess={handlePaymentSuccess}
+            onPaymentFailure={handlePaymentFailure}
+          />
+        )}
+      </div>
     </div>
   );
 };
