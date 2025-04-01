@@ -54,9 +54,9 @@ const Drawer: FC<DrawerProps> = ({ onToggle }) => {
   };
 
   return (
-    <div className="h-full flex flex-col text-white">
-      {/* Drawer Header */}
-      <div className="p-4 flex items-center justify-between border-b border-blue-800">
+    <div className="h-full flex flex-col text-white overflow-hidden">
+      {/* Drawer Header - fixed at top */}
+      <div className="p-4 flex items-center justify-between border-b border-blue-800 bg-blue-950">
         <div className="flex items-center gap-2">
           <LayoutDashboard className="w-6 h-6" />
           <h2 className="text-xl font-semibold">Dashboard</h2>
@@ -69,7 +69,7 @@ const Drawer: FC<DrawerProps> = ({ onToggle }) => {
         </button>
       </div>
 
-      {/* Drawer Items */}
+      {/* Drawer Items - scrollable content */}
       <nav className="flex-1 overflow-y-auto">
         <ul className="px-2 py-4 space-y-1 list-none">
           {/* Add more menu items here */}

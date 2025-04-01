@@ -1,4 +1,3 @@
-import Footer from "../../components/Footer/Footer";
 import Navbar from "../../components/Navbar/Navbar";
 import { Outlet } from "react-router-dom";
 import Drawer from "./aside/Drawer";
@@ -23,10 +22,10 @@ const Dashboard = () => {
           </button>
 
           <div className="flex flex-row min-h-[calc(100vh-4rem)]">
-            {/* Sidebar */}
-            <div className="fixed lg:relative w-64 flex-shrink-0 z-40">
+            {/* Sidebar - fixed on both mobile and desktop */}
+            <div className="fixed top-16 left-0 w-64 h-[calc(100vh-4rem)] z-40">
               <div 
-                className={`w-64 h-[calc(100vh-4rem)] bg-blue-950 transform transition-transform duration-300 ${
+                className={`w-64 h-full bg-blue-950 transform transition-transform duration-300 ${
                   isDrawerOpen ? 'translate-x-0' : '-translate-x-full'
                 } lg:translate-x-0`}
               >
@@ -42,8 +41,8 @@ const Dashboard = () => {
               />
             )}
             
-            {/* Main content area */}
-            <div className="flex-1 min-w-0 w-full lg:pl-0">
+            {/* Main content area - adjusted margin for fixed drawer */}
+            <div className="flex-1 min-w-0 w-full lg:ml-64">
               <div className="p-2 sm:p-3 lg:p-4">
                 <div className="bg-white rounded-lg shadow-sm">
                   <div className="overflow-hidden">
@@ -61,7 +60,6 @@ const Dashboard = () => {
           </div>
         </div>
       </ProtectedRoute>
-      <Footer />
     </div>
   );
 };
