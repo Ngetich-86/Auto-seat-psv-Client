@@ -166,7 +166,7 @@ function MyBookings() {
       doc.setFontSize(24);
       doc.setFont("helvetica", "bold");
       doc.text("PSV Booking System", 60, 25);
-      
+
       // Reset text color for rest of the document
       doc.setTextColor(0, 0, 0);
 

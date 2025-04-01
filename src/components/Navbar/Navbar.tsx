@@ -91,15 +91,15 @@ const Navbar: React.FC = () => {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="navbar bg-white text-black shadow-md h-16 px-4 md:px-12 fixed top-0 left-0 right-0 z-50"
+      className="navbar bg-[#1E293B] text-indigo-200 shadow-lg h-16 px-4 md:px-12 fixed top-0 left-0 right-0 z-50 border-b border-indigo-500/20"
     >
       <div className="flex justify-between items-center w-full mx-auto">
         {/* Title */}
         <Link
           to="/"
-          className="text-2xl font-bold text-slate-900 hover:text-gray-700 transition-colors duration-300 flex items-center gap-2"
+          className="text-2xl font-bold text-white hover:text-indigo-300 transition-colors duration-300 flex items-center gap-2"
         >
-          <FaBus className="text-blue-600" />
+          <FaBus className="text-indigo-400" />
           <span className="hidden md:inline">Automated Public Service Vehicle Seat Booking System</span>
           <span className="md:hidden">APSV SBS</span>
         </Link>
@@ -118,7 +118,7 @@ const Navbar: React.FC = () => {
               <li key={index}>
                 <Link
                   to={link.to}
-                  className="hover:text-gray-700 transition-colors duration-300 flex items-center gap-2"
+                  className="hover:text-indigo-300 transition-colors duration-300 flex items-center gap-2"
                 >
                   {link.icon}
                   <span>{link.text}</span>
@@ -136,7 +136,7 @@ const Navbar: React.FC = () => {
                   <img
                     src={usericon}
                     alt="Auth"
-                    className="w-8 h-8 rounded-full cursor-pointer border border-gray-300"
+                    className="w-8 h-8 rounded-full cursor-pointer border border-indigo-500/20"
                   />
                 </button>
 
@@ -147,11 +147,11 @@ const Navbar: React.FC = () => {
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      className="absolute top-full right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg p-2 z-50"
+                      className="absolute top-full right-0 mt-2 w-40 bg-[#1E293B] border border-indigo-500/20 rounded-lg shadow-lg p-2 z-50"
                     >
                       <Link
                         to="/register"
-                        className="flex px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-md items-center gap-2"
+                        className="flex px-4 py-2 text-indigo-200 hover:bg-indigo-500/20 rounded-md items-center gap-2"
                         onClick={() => setIsDropdownOpen(false)}
                       >
                         <FaUser />
@@ -159,7 +159,7 @@ const Navbar: React.FC = () => {
                       </Link>
                       <Link
                         to="/login"
-                        className="flex px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-md items-center gap-2"
+                        className="flex px-4 py-2 text-indigo-200 hover:bg-indigo-500/20 rounded-md items-center gap-2"
                         onClick={() => setIsDropdownOpen(false)}
                       >
                         <FaSignInAlt />
@@ -179,7 +179,7 @@ const Navbar: React.FC = () => {
                   <img
                     src={userData?.image_url || usericon}
                     alt="Profile"
-                    className="w-8 h-8 rounded-full cursor-pointer border border-gray-300"
+                    className="w-8 h-8 rounded-full cursor-pointer border border-indigo-500/20"
                   />
                 </button>
 
@@ -190,11 +190,11 @@ const Navbar: React.FC = () => {
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      className="absolute top-full right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg p-2 z-50"
+                      className="absolute top-full right-0 mt-2 w-40 bg-[#1E293B] border border-indigo-500/20 rounded-lg shadow-lg p-2 z-50"
                     >
                       <Link
                         to="/dashboard/profile"
-                        className="flex px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-md items-center gap-2"
+                        className="flex px-4 py-2 text-indigo-200 hover:bg-indigo-500/20 rounded-md items-center gap-2"
                         onClick={() => setIsProfileOpen(false)}
                       >
                         <FaUser />
@@ -202,7 +202,7 @@ const Navbar: React.FC = () => {
                       </Link>
                       <button
                         onClick={handleLogout}
-                        className="flex w-full text-left px-4 py-2 text-red-600 hover:bg-gray-200 rounded-md items-center gap-2"
+                        className="flex w-full text-left px-4 py-2 text-red-400 hover:bg-red-500/20 rounded-md items-center gap-2"
                       >
                         <FaSignOutAlt />
                         <span>Logout</span>
@@ -219,7 +219,7 @@ const Navbar: React.FC = () => {
             id="mobile-menu-button"
             type="button"
             onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-            className="btn btn-circle lg:hidden"
+            className="btn btn-circle lg:hidden text-indigo-200 hover:text-indigo-300"
             title="Toggle Menu"
           >
             <motion.svg
@@ -254,7 +254,7 @@ const Navbar: React.FC = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="lg:hidden absolute top-16 left-0 w-full bg-white shadow-md z-40"
+            className="lg:hidden absolute top-16 left-0 w-full bg-[#1E293B] shadow-lg z-40 border-b border-indigo-500/20"
           >
             <ul className="flex flex-col space-y-4 p-4">
               {[
@@ -267,7 +267,7 @@ const Navbar: React.FC = () => {
                 <li key={index}>
                   <Link
                     to={link.to}
-                    className="hover:text-gray-700 transition-colors duration-300 flex items-center gap-2 text-sm"
+                    className="hover:text-indigo-300 transition-colors duration-300 flex items-center gap-2 text-sm"
                     onClick={handleMobileMenuLinkClick}
                   >
                     {link.icon}
@@ -280,7 +280,7 @@ const Navbar: React.FC = () => {
                 <li>
                   <Link
                     to="/login"
-                    className="flex px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-md items-center gap-2 text-sm"
+                    className="flex px-4 py-2 text-indigo-200 hover:bg-indigo-500/20 rounded-md items-center gap-2 text-sm"
                     onClick={handleMobileMenuLinkClick}
                   >
                     <FaSignInAlt />
@@ -291,7 +291,7 @@ const Navbar: React.FC = () => {
                 <li>
                   <button
                     onClick={handleLogout}
-                    className="flex w-full text-left px-4 py-2 text-red-600 hover:bg-gray-200 rounded-md items-center gap-2 text-sm"
+                    className="flex w-full text-left px-4 py-2 text-red-400 hover:bg-red-500/20 rounded-md items-center gap-2 text-sm"
                   >
                     <FaSignOutAlt />
                     <span>Logout</span>

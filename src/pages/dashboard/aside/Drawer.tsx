@@ -55,23 +55,23 @@ const Drawer: FC<DrawerProps> = ({ onToggle }) => {
 
   return (
     <div className="h-full flex flex-col text-white overflow-hidden">
-      {/* Drawer Header - fixed at top */}
-      <div className="p-4 flex items-center justify-between border-b border-blue-800 bg-blue-950">
+      {/* Drawer Header */}
+      <div className="p-4 flex items-center justify-between border-b border-indigo-500/20">
         <div className="flex items-center gap-2">
-          <LayoutDashboard className="w-6 h-6" />
-          <h2 className="text-xl font-semibold">Dashboard</h2>
+          <LayoutDashboard className="w-6 h-6 text-indigo-400" />
+          <h2 className="text-xl font-semibold text-white">Dashboard</h2>
         </div>
         <button 
           onClick={onToggle}
-          className="lg:hidden p-2 hover:bg-blue-800 rounded-md transition-colors"
+          className="lg:hidden p-2 hover:bg-indigo-500/20 rounded-lg transition-colors"
         >
-          <X className="w-6 h-6" />
+          <X className="w-6 h-6 text-indigo-400" />
         </button>
       </div>
 
-      {/* Drawer Items - scrollable content */}
+      {/* Drawer Items */}
       <nav className="flex-1 overflow-y-auto">
-        <ul className="px-2 py-4 space-y-1 list-none">
+        <ul className="px-2 py-4 space-y-1">
           {/* Add more menu items here */}
           {drawerData.filter(filterDrawerItems).map((item) => (
             <li key={item.id}>
@@ -79,17 +79,17 @@ const Drawer: FC<DrawerProps> = ({ onToggle }) => {
                 <button
                   type="button"
                   onClick={handleLogOut}
-                  className="w-full text-left text-white hover:bg-blue-700 block px-4 py-3 rounded-md transition-colors duration-200 text-base lg:text-sm"
+                  className="w-full text-left text-white hover:bg-indigo-500/20 block px-4 py-3 rounded-lg transition-colors duration-200 text-base lg:text-sm"
                 >
-                  {item.icon && <item.icon className="inline-block mr-3" size={24} />}
+                  {item.icon && <item.icon className="inline-block mr-3 text-indigo-400" size={24} />}
                   {item.name}
                 </button>
               ) : (
                 <Link
                   to={item.link}
-                  className="text-white hover:bg-blue-700 block px-4 py-3 rounded-md transition-colors duration-200 text-base lg:text-sm"
+                  className="text-white hover:bg-indigo-500/20 block px-4 py-3 rounded-lg transition-colors duration-200 text-base lg:text-sm"
                 >
-                  {item.icon && <item.icon className="inline-block mr-3" size={24} />}
+                  {item.icon && <item.icon className="inline-block mr-3 text-indigo-400" size={24} />}
                   {item.name}
                 </Link>
               )}

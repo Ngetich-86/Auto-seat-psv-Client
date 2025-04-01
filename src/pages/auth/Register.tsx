@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -30,6 +31,9 @@ const schema = yup.object().shape({
 const Register = () => {
   const navigate = useNavigate();
   const [createUser, { error }] = usersAPI.useCreateUserMutation();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
     register,
@@ -40,142 +44,209 @@ const Register = () => {
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     console.log("Submitting data:", data);
     try {
+      setIsSubmitting(true);
       const response = await createUser(data);
-      console.log("Response data:", response); // success
+      console.log("Response data:", response);
       toast.success("Registration successful", {
         position: "top-right",
         autoClose: 3000,
-      }); // Show success toast
+      });
       setTimeout(() => {
-        navigate("/login"); // Redirect to login page after registration
+        navigate("/login");
       }, 1000);
     } catch (err) {
       if (error) {
-        console.error("API error:", error); // error
+        console.error("API error:", error);
         if ("data" in error && error.data) {
-          // Parse and display error details from the response
           toast.error("Invalid credentials", {
             position: "top-right",
             autoClose: 3000,
-          }); // Show error toast
+          });
           console.error("Error details:", error.data);
         }
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <div>
-      {/* Toast Container */}
+    <div className="min-h-screen bg-[#0F172A]">
       <ToastContainer />
-
       <Navbar />
 
-      <div className="hero-content flex-col lg:flex-row-reverse lg:gap-16 h-full max-w-full border-2">
-        <div className="card bg-base-100 w-full lg:w-[40%] shadow-2xl">
-          <form onSubmit={handleSubmit(onSubmit)} className="card-body">
-            <div className="form-control">
-              <input
-                type="text"
-                placeholder="Firstname"
-                className="input input-bordered"
-                required
-                {...register("first_name")}
-              />
-              <p className="text-red-500">{errors.first_name?.message}</p>
-            </div>
-            <div className="form-control">
-              <input
-                type="text"
-                placeholder="lastname"
-                className="input input-bordered"
-                required
-                {...register("last_name")}
-              />
-              <p className="text-red-500">{errors.last_name?.message}</p>
-            </div>
-            <div className="form-control">
-              <input
-                type="email"
-                placeholder="email"
-                className="input input-bordered"
-                required
-                {...register("email")}
-              />
-              <p className="text-red-500">{errors.email?.message}</p>
+      <div className="min-h-[calc(100vh-64px)] flex items-center justify-center p-4">
+        <div className="w-full max-w-4xl flex flex-col lg:flex-row-reverse items-center gap-8 mt-8">
+          {/* Register Form Card */}
+          <div className="w-full lg:w-[45%] bg-[#1E293B] rounded-2xl p-8 shadow-2xl border border-indigo-500/20">
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-bold text-white mb-1">Create Account</h2>
+              <p className="text-indigo-200 text-sm">Join us today</p>
             </div>
 
-            <div className="form-control">
-              <input
-                type="string"
-                placeholder="phone number"
-                className="input input-bordered"
-                required
-                {...register("phone_number")}
-              />
-              <p className="text-red-500">{errors.phone_number?.message}</p>
-            </div>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="text-indigo-200 text-sm font-medium">First Name</label>
+                  <input
+                    type="text"
+                    placeholder="Enter first name"
+                    className="w-full px-3 py-2 rounded-lg bg-[#0F172A] text-indigo-200 border border-indigo-500/20 focus:border-indigo-500 placeholder-indigo-400/50 text-sm"
+                    required
+                    {...register("first_name")}
+                  />
+                  {errors.first_name && (
+                    <p className="text-red-400 text-xs">{errors.first_name.message}</p>
+                  )}
+                </div>
 
-            <div className="form-control">
-              <input
-                type="text"
-                placeholder="username"
-                className="input input-bordered"
-                required
-                {...register("username")}
-              />
-              <p className="text-red-500">{errors.username?.message}</p>
-            </div>
+                <div className="space-y-1">
+                  <label className="text-indigo-200 text-sm font-medium">Last Name</label>
+                  <input
+                    type="text"
+                    placeholder="Enter last name"
+                    className="w-full px-3 py-2 rounded-lg bg-[#0F172A] text-indigo-200 border border-indigo-500/20 focus:border-indigo-500 placeholder-indigo-400/50 text-sm"
+                    required
+                    {...register("last_name")}
+                  />
+                  {errors.last_name && (
+                    <p className="text-red-400 text-xs">{errors.last_name.message}</p>
+                  )}
+                </div>
+              </div>
 
-            <div className="form-control">
-              <input
-                type="password"
-                placeholder="password"
-                className="input input-bordered"
-                required
-                {...register("password")}
-              />
-              <p className="text-red-500">{errors.password?.message}</p>
-            </div>
+              <div className="space-y-1">
+                <label className="text-indigo-200 text-sm font-medium">Email</label>
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="w-full px-3 py-2 rounded-lg bg-[#0F172A] text-indigo-200 border border-indigo-500/20 focus:border-indigo-500 placeholder-indigo-400/50 text-sm"
+                  required
+                  {...register("email")}
+                />
+                {errors.email && (
+                  <p className="text-red-400 text-xs">{errors.email.message}</p>
+                )}
+              </div>
 
-            <div className="form-control">
-              <input
-                type="password"
-                placeholder="confirm password"
-                className="input input-bordered"
-                required
-                {...register("confirmPassword")}
-              />
-              <p className="text-red-500">{errors.confirmPassword?.message}</p>
-            </div>
-            <div>
-              <label className="label">
-                <a href="#" className="label-text-alt link link-hover">
-                  Forgot password?
-                </a>
-              </label>
-            </div>
+              <div className="space-y-1">
+                <label className="text-indigo-200 text-sm font-medium">Phone Number</label>
+                <input
+                  type="tel"
+                  placeholder="Enter phone number"
+                  className="w-full px-3 py-2 rounded-lg bg-[#0F172A] text-indigo-200 border border-indigo-500/20 focus:border-indigo-500 placeholder-indigo-400/50 text-sm"
+                  required
+                  {...register("phone_number")}
+                />
+                {errors.phone_number && (
+                  <p className="text-red-400 text-xs">{errors.phone_number.message}</p>
+                )}
+              </div>
 
-            <div className="form-control mt-2">
-              <button type="submit" className="btn bg-webcolor text-text-light hover:text-black border-none">
-                Register
+              <div className="space-y-1">
+                <label className="text-indigo-200 text-sm font-medium">Username</label>
+                <input
+                  type="text"
+                  placeholder="Choose a username"
+                  className="w-full px-3 py-2 rounded-lg bg-[#0F172A] text-indigo-200 border border-indigo-500/20 focus:border-indigo-500 placeholder-indigo-400/50 text-sm"
+                  required
+                  {...register("username")}
+                />
+                {errors.username && (
+                  <p className="text-red-400 text-xs">{errors.username.message}</p>
+                )}
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-indigo-200 text-sm font-medium">Password</label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Create a password"
+                    className="w-full px-3 py-2 rounded-lg bg-[#0F172A] text-indigo-200 border border-indigo-500/20 focus:border-indigo-500 placeholder-indigo-400/50 text-sm pr-10"
+                    required
+                    {...register("password")}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-indigo-400 hover:text-indigo-300 transition-colors"
+                  >
+                    {showPassword ? (
+                      <span className="text-lg" role="img" aria-label="hide password">👁️</span>
+                    ) : (
+                      <span className="text-lg" role="img" aria-label="show password">👁️‍🗨️</span>
+                    )}
+                  </button>
+                </div>
+                {errors.password && (
+                  <p className="text-red-400 text-xs">{errors.password.message}</p>
+                )}
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-indigo-200 text-sm font-medium">Confirm Password</label>
+                <div className="relative">
+                  <input
+                    type={showConfirmPassword ? "text" : "password"}
+                    placeholder="Confirm your password"
+                    className="w-full px-3 py-2 rounded-lg bg-[#0F172A] text-indigo-200 border border-indigo-500/20 focus:border-indigo-500 placeholder-indigo-400/50 text-sm pr-10"
+                    required
+                    {...register("confirmPassword")}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-indigo-400 hover:text-indigo-300 transition-colors"
+                  >
+                    {showConfirmPassword ? (
+                      <span className="text-lg" role="img" aria-label="hide password">👁️</span>
+                    ) : (
+                      <span className="text-lg" role="img" aria-label="show password">👁️‍🗨️</span>
+                    )}
+                  </button>
+                </div>
+                {errors.confirmPassword && (
+                  <p className="text-red-400 text-xs">{errors.confirmPassword.message}</p>
+                )}
+              </div>
+
+              <button
+                type="submit"
+                className="w-full py-2 px-4 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-500 transition-colors flex items-center justify-center gap-2 text-sm mt-2"
+              >
+                {isSubmitting ? (
+                  <>
+                    <span className="loading loading-spinner loading-xs"></span>
+                    <span>Creating Account...</span>
+                  </>
+                ) : (
+                  "Create Account"
+                )}
               </button>
-            </div>
 
-            <div className="form-control mt-2">
-              <Link to="/login" className="label-text-alt link link-hover">
-                Already have an account? Login
-              </Link>
-            </div>
-          </form>
-        </div>
+              <div className="text-center mt-2">
+                <Link 
+                  to="/login" 
+                  className="text-indigo-400 hover:text-indigo-300 text-xs transition-colors"
+                >
+                  Already have an account? Sign in
+                </Link>
+              </div>
+            </form>
+          </div>
 
-        <div className="hidden lg:block w-full lg:w-[35%]">
-          <img
-            src="https://www.gitsoftwaresolutions.com/assets/whyUs/3.png"
-            alt="auth"
-            className="w-full h-full object-cover lg:object-fill rounded-lg"
-          />
+          {/* Image Section */}
+          <div className="hidden lg:block w-full lg:w-[55%]">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/20 to-purple-600/20 rounded-2xl"></div>
+              <img
+                src="https://www.gitsoftwaresolutions.com/assets/whyUs/3.png"
+                alt="auth"
+                className="w-full h-full object-cover rounded-2xl shadow-2xl"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

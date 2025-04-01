@@ -214,24 +214,33 @@ const MpesaPaymentModal: React.FC<MpesaPaymentModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-center z-50">
       <ToastContainer />
-      <div className="bg-white p-6 rounded-lg shadow-lg w-full md:w-1/3">
-        <h2 className="text-xl font-bold mb-4">M-Pesa Payment</h2>
+      <div className="bg-[#1E293B] p-6 rounded-2xl shadow-2xl w-full md:w-1/3 border border-indigo-500/20">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-white">M-Pesa Payment</h2>
+          <button
+            onClick={onClose}
+            className="text-indigo-200 hover:text-white transition-colors"
+            disabled={isSubmitting || isPolling}
+          >
+            ✕
+          </button>
+        </div>
 
         {isPolling && (
-          <div className="mb-4 bg-blue-50 p-3 rounded">
-            <p className="text-blue-700">
+          <div className="mb-6 bg-indigo-900/30 p-4 rounded-xl border border-indigo-500/20">
+            <p className="text-indigo-200">
               Waiting for payment confirmation... ({pollAttempts}/{maxPollAttempts})
             </p>
-            <p className="text-sm text-blue-600 mt-1">
+            <p className="text-sm text-indigo-300 mt-2">
               Please complete the payment on your phone
             </p>
           </div>
         )}
 
-        <div className="mb-4">
-          <label htmlFor="phoneNumber" className="block mb-1">
+        <div className="mb-6">
+          <label htmlFor="phoneNumber" className="block mb-2 text-indigo-200">
             Phone Number
           </label>
           <input
@@ -239,20 +248,22 @@ const MpesaPaymentModal: React.FC<MpesaPaymentModalProps> = ({
             id="phoneNumber"
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
-            className="border rounded w-full py-2 px-3"
+            className="w-full py-2 px-3 rounded-lg bg-[#0F172A] text-indigo-200 border border-indigo-500/20 focus:border-indigo-500 placeholder-indigo-400/50"
             placeholder="254XXXXXXXXX"
             disabled={isPolling}
           />
         </div>
-        <div className="mb-4">
-          <p className="text-lg font-semibold">Amount: KSh {amount.toFixed(2)}</p>
-          <p className="text-lg font-semibold">Booking ID: {bookingId}</p>
+
+        <div className="mb-6 p-4 bg-[#0F172A] rounded-xl border border-indigo-500/20">
+          <p className="text-lg font-semibold text-indigo-200">Amount: <span className="text-indigo-400">KSh {amount.toFixed(2)}</span></p>
+          <p className="text-lg font-semibold text-indigo-200 mt-2">Booking ID: <span className="text-indigo-400">{bookingId}</span></p>
         </div>
+
         <div className="flex justify-between">
           <button
             type="button"
             onClick={onClose}
-            className="text-gray-600 hover:text-gray-800"
+            className="text-indigo-200 hover:text-white transition-colors"
             disabled={isSubmitting || isPolling}
           >
             Cancel
@@ -260,8 +271,10 @@ const MpesaPaymentModal: React.FC<MpesaPaymentModalProps> = ({
           <button
             type="button"
             onClick={handlePayment}
-            className={`bg-blue-500 text-white px-4 py-2 rounded ${
-              isSubmitting || isPolling ? "opacity-50 cursor-not-allowed" : ""
+            className={`px-6 py-2 rounded-lg text-white font-semibold transition-colors ${
+              isSubmitting || isPolling 
+                ? 'bg-gray-700 cursor-not-allowed' 
+                : 'bg-indigo-600 hover:bg-indigo-500'
             }`}
             disabled={isSubmitting || isPolling}
           >

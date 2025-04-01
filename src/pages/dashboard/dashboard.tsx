@@ -78,7 +78,7 @@ const Dashboard = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-blue-800 flex flex-col">
+    <div className="min-h-screen bg-[#0F172A] flex flex-col">
       {/* Navbar (fixed at top) */}
       <Navbar />
 
@@ -86,7 +86,7 @@ const Dashboard = () => {
         {/* Mobile Toggle Button */}
         <button
           onClick={() => setIsDrawerOpen(!isDrawerOpen)}
-          className="fixed top-20 left-4 z-50 block lg:hidden bg-blue-950 text-white p-2 rounded-md transition-all duration-300"
+          className="fixed top-20 left-4 z-50 block lg:hidden bg-indigo-600/90 text-white p-2 rounded-lg transition-all duration-300 hover:bg-indigo-500 shadow-lg shadow-indigo-500/20"
         >
           {isDrawerOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
         </button>
@@ -94,13 +94,15 @@ const Dashboard = () => {
         {/* Main Content Wrapper */}
         <div className="flex flex-1 pt-16">
           {/* Fixed Sidebar (Desktop) */}
-          <div className="hidden lg:block fixed h-[calc(100vh-4rem-4rem)] w-64 bg-blue-950 z-40">
-            <Drawer onToggle={() => setIsDrawerOpen(false)} />
+          <div className="hidden lg:block fixed w-64 z-40">
+            <div className="h-[calc(100vh-4rem)] bg-[#1E293B] border-r border-indigo-500/20 shadow-xl">
+              <Drawer onToggle={() => setIsDrawerOpen(false)} />
+            </div>
           </div>
 
           {/* Mobile Sidebar (Overlay) */}
           <div
-            className={`lg:hidden fixed w-64 h-[calc(100vh-4rem)] bg-blue-950 z-40 transform transition-transform duration-300 ${
+            className={`lg:hidden fixed w-64 h-[calc(100vh-4rem)] bg-[#1E293B] border-r border-indigo-500/20 shadow-xl z-40 transform transition-transform duration-300 ${
               isDrawerOpen ? 'translate-x-0' : '-translate-x-full'
             }`}
           >
@@ -110,16 +112,16 @@ const Dashboard = () => {
           {/* Overlay for Mobile */}
           {isDrawerOpen && (
             <div
-              className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30"
+              className="lg:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-30"
               onClick={() => setIsDrawerOpen(false)}
             />
           )}
 
           {/* Scrollable Content Area */}
           <div className="flex-1 lg:ml-64 overflow-y-auto">
-            <div className="p-4 min-h-[calc(100vh-8rem)] pb-16"> {/* Added pb-16 for footer space */}
-              <div className="bg-white rounded-lg shadow-sm">
-                <div className="p-4">
+            <div className="p-4 min-h-[calc(100vh-8rem)] pb-16">
+              <div className="bg-[#1E293B] rounded-2xl shadow-2xl border border-indigo-500/20">
+                <div className="p-8">
                   <Outlet />
                 </div>
               </div>
@@ -128,7 +130,7 @@ const Dashboard = () => {
         </div>
 
         {/* Fixed Footer - Now properly aligned */}
-        <div className="lg:ml-64 w-full lg:w-[calc(100%-16rem)] bg-gray-800 relative z-10">
+        <div className="lg:ml-64 w-full lg:w-[calc(100%-16rem)] bg-[#1E293B] border-t border-indigo-500/20 shadow-lg relative z-10">
           <Footer />
         </div>
       </ProtectedRoute>

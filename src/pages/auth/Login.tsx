@@ -25,6 +25,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isLoggingIn, setIsLoggingIn] = useState(false); // login loader
+  const [showPassword, setShowPassword] = useState(false); // Add this line
 
   const {
     register,
@@ -82,74 +83,106 @@ const Login = () => {
   };
 
   return (
-    <div>
-      {/* Toast Container */}
+    <div className="min-h-screen bg-[#0F172A]">
       <ToastContainer />
-
       <Navbar />
-      <div className="hero-content flex-col lg:flex-row-reverse lg:gap-16 h-screen max-w-full border-2">
-        <div className="card bg-base-100 w-full lg:w-[40%] shadow-2xl">
-          <form onSubmit={handleSubmit(onSubmit)} className="card-body">
-            <div className="form-control">
-              <input
-                type="email"
-                placeholder="email"
-                className="input input-bordered"
-                required
-                {...register("email")}
-              />
-              <p className="text-red-500">{errors.email?.message}</p>
+      
+      <div className="min-h-[calc(100vh-64px)] flex items-center justify-center p-8">
+        <div className="w-full max-w-4xl flex flex-col lg:flex-row-reverse items-center gap-8 mt-8">
+          {/* Login Form Card */}
+          <div className="w-full lg:w-[45%] bg-[#1E293B] rounded-2xl p-8 shadow-2xl border border-indigo-500/20">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl font-bold text-white mb-2">Welcome Back</h2>
+              <p className="text-indigo-200">Sign in to your account</p>
             </div>
 
-            <div className="form-control">
-              <input
-                type="password"
-                placeholder="password"
-                className="input input-bordered"
-                required
-                {...register("password")}
-              />
-              <p className="text-red-500">{errors.password?.message}</p>
-            </div>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-indigo-200 text-sm font-medium">Email</label>
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="w-full px-4 py-3 rounded-lg bg-[#0F172A] text-indigo-200 border border-indigo-500/20 focus:border-indigo-500 placeholder-indigo-400/50"
+                  required
+                  {...register("email")}
+                />
+                {errors.email && (
+                  <p className="text-red-400 text-sm">{errors.email.message}</p>
+                )}
+              </div>
 
-            <div>
-              <label className="label">
-                <a href="/forgot-password" className="label-text-alt link link-hover">
+              <div className="space-y-2">
+                <label className="text-indigo-200 text-sm font-medium">Password</label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Enter your password"
+                    className="w-full px-4 py-3 rounded-lg bg-[#0F172A] text-indigo-200 border border-indigo-500/20 focus:border-indigo-500 placeholder-indigo-400/50 pr-12"
+                    required
+                    {...register("password")}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-indigo-400 hover:text-indigo-300 transition-colors"
+                  >
+                    {showPassword ? (
+                      <span className="text-xl" role="img" aria-label="hide password">👁️</span>
+                    ) : (
+                      <span className="text-xl" role="img" aria-label="show password">👁️‍🗨️</span>
+                    )}
+                  </button>
+                </div>
+                {errors.password && (
+                  <p className="text-red-400 text-sm">{errors.password.message}</p>
+                )}
+              </div>
+
+              <div className="flex justify-end">
+                <a 
+                  href="/forgot-password" 
+                  className="text-indigo-400 hover:text-indigo-300 text-sm transition-colors"
+                >
                   Forgot password?
                 </a>
-              </label>
-            </div>
+              </div>
 
-            <div className="form-control mt-2">
               <button
                 type="submit"
-                className="btn bg-webcolor text-text-light hover:text-black border-none"
+                className="w-full py-3 px-4 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-500 transition-colors flex items-center justify-center gap-2"
               >
                 {isLoggingIn ? (
                   <>
-                    <span className="loading loading-spinner text-text-light"></span>
-                    <span className="text-text-light">Logging in...</span>
+                    <span className="loading loading-spinner loading-sm"></span>
+                    <span>Signing in...</span>
                   </>
                 ) : (
-                  "Login"
+                  "Sign In"
                 )}
               </button>
-            </div>
 
-            <div className="form-control mt-2">
-              <Link to="/register" className="label-text-alt link link-hover">
-                Don't have an account? Register
-              </Link>
-            </div>
-          </form>
-        </div>
+              <div className="text-center">
+                <Link 
+                  to="/register" 
+                  className="text-indigo-400 hover:text-indigo-300 text-sm transition-colors"
+                >
+                  Don't have an account? Register
+                </Link>
+              </div>
+            </form>
+          </div>
 
-        <div className="hidden lg:block w-full lg:w-[25%]">
-          <img
-            src="https://www.gitsoftwaresolutions.com/assets/whyUs/4.png"
-            alt="auth"
-            className="w-full h-full object-cover lg:object-fill rounded-lg"
-          />
+          {/* Image Section */}
+          <div className="hidden lg:block w-full lg:w-[55%]">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/20 to-purple-600/20 rounded-2xl"></div>
+              <img
+                src="https://www.gitsoftwaresolutions.com/assets/whyUs/4.png"
+                alt="auth"
+                className="w-full h-full object-cover rounded-2xl shadow-2xl"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

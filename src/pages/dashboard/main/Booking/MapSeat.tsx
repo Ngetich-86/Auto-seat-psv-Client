@@ -209,14 +209,14 @@ const MapSeatModal: React.FC<MapSeatModalProps> = ({ vehicle, onClose, refetchVe
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
       <Toaster />
-      <div className="bg-white rounded-lg p-6 max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold text-gray-800">Select Seats</h2>
+      <div className="bg-[#1E293B] rounded-2xl p-6 max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto border border-indigo-500/20 shadow-2xl">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-white">Select Seats</h2>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700"
+            className="text-indigo-200 hover:text-white transition-colors"
           >
             ✕
           </button>
@@ -224,26 +224,26 @@ const MapSeatModal: React.FC<MapSeatModalProps> = ({ vehicle, onClose, refetchVe
 
         {isLoading ? (
           <div className="flex items-center justify-center h-64">
-            <ClipLoader color="#3B82F6" size={50} />
+            <ClipLoader color="#6366F1" size={50} />
           </div>
         ) : (
           <>
-            {/* 🚗 Car-Shaped Seat Layout */}
-            <div className="relative flex flex-col items-center bg-gray-300 p-4 rounded-lg shadow-lg border-4 border-gray-800 max-w-xs mx-auto">
-              {/* 🚖 Car Roof */}
-              <div className="w-32 h-6 bg-gray-700 rounded-t-lg"></div>
+            {/* Car-Shaped Seat Layout */}
+            <div className="relative flex flex-col items-center bg-[#0F172A] p-4 rounded-xl shadow-lg border-2 border-indigo-500/20 max-w-xs mx-auto">
+              {/* Car Roof */}
+              <div className="w-32 h-6 bg-indigo-900/50 rounded-t-lg"></div>
 
-              {/* 🚗 Driver's Section with Steering Wheel */}
+              {/* Driver's Section */}
               <div className="w-full flex justify-center mb-2 relative">
                 <div className="relative flex flex-col items-center">
-                  <div className="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center text-white mb-1 relative">
+                  <div className="w-12 h-12 bg-indigo-900/50 rounded-full flex items-center justify-center text-white mb-1 relative">
                     <span className="text-2xl" role="img" aria-label="steering wheel">🎡</span>
-                    <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 text-xs">
+                    <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 text-xs text-indigo-200">
                       Driver
                     </div>
                   </div>
                   <button
-                    className="p-2 w-10 h-10 rounded-lg border bg-gray-800 text-white font-semibold flex items-center justify-center"
+                    className="p-2 w-10 h-10 rounded-lg border border-indigo-500/20 bg-[#1E293B] text-indigo-200 font-semibold flex items-center justify-center"
                     disabled
                   >
                     S1
@@ -251,11 +251,11 @@ const MapSeatModal: React.FC<MapSeatModalProps> = ({ vehicle, onClose, refetchVe
                 </div>
               </div>
 
-              {/* Passenger Seats - Arranged Like a Car Interior */}
-              <div className="w-full bg-gray-400 rounded-lg p-2">
+              {/* Passenger Seats */}
+              <div className="w-full bg-[#0F172A] rounded-lg p-2">
                 {Array.from({ length: Math.ceil((vehicle.capacity - 1) / 4) }, (_, rowIndex) => (
                   <div key={rowIndex} className="flex justify-between w-full px-4 my-1">
-                    {/* 🚗 Left Section (Window & Aisle Seats) */}
+                    {/* Left Section */}
                     <div className="flex space-x-2">
                       {Array.from({ length: 2 }, (_, colIndex) => {
                         const seatIndex = rowIndex * 4 + colIndex + 1;
@@ -268,10 +268,10 @@ const MapSeatModal: React.FC<MapSeatModalProps> = ({ vehicle, onClose, refetchVe
                             key={seatNumber}
                             className={`p-2 w-10 h-10 rounded-lg border font-semibold transition ${
                               bookedSeats.includes(seatNumber) || confirmedSeats.includes(seatNumber)
-                                ? 'bg-red-500'
+                                ? 'bg-red-500/80 text-white'
                                 : selectedSeats.includes(seatNumber)
-                                ? 'bg-green-500'
-                                : 'bg-gray-200'
+                                ? 'bg-indigo-600 text-white'
+                                : 'bg-[#1E293B] text-indigo-200 border-indigo-500/20 hover:bg-indigo-500/20'
                             }`}
                             onClick={() => handleSeatClick(seatNumber)}
                             disabled={bookedSeats.includes(seatNumber) || confirmedSeats.includes(seatNumber)}
@@ -282,7 +282,7 @@ const MapSeatModal: React.FC<MapSeatModalProps> = ({ vehicle, onClose, refetchVe
                       })}
                     </div>
 
-                    {/* 🚗 Right Section (Window & Aisle Seats) */}
+                    {/* Right Section */}
                     <div className="flex space-x-2">
                       {Array.from({ length: 2 }, (_, colIndex) => {
                         const seatIndex = rowIndex * 4 + colIndex + 3;
@@ -295,10 +295,10 @@ const MapSeatModal: React.FC<MapSeatModalProps> = ({ vehicle, onClose, refetchVe
                             key={seatNumber}
                             className={`p-2 w-10 h-10 rounded-lg border font-semibold transition ${
                               bookedSeats.includes(seatNumber) || confirmedSeats.includes(seatNumber)
-                                ? 'bg-red-500'
+                                ? 'bg-red-500/80 text-white'
                                 : selectedSeats.includes(seatNumber)
-                                ? 'bg-green-500'
-                                : 'bg-gray-200'
+                                ? 'bg-indigo-600 text-white'
+                                : 'bg-[#1E293B] text-indigo-200 border-indigo-500/20 hover:bg-indigo-500/20'
                             }`}
                             onClick={() => handleSeatClick(seatNumber)}
                             disabled={bookedSeats.includes(seatNumber) || confirmedSeats.includes(seatNumber)}
@@ -314,64 +314,70 @@ const MapSeatModal: React.FC<MapSeatModalProps> = ({ vehicle, onClose, refetchVe
             </div>
 
             {/* Seat Tags */}
-            <div className="mt-4 flex justify-center space-x-4">
+            <div className="mt-6 flex justify-center space-x-6">
               <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 bg-red-500 rounded"></div>
-                <span>Booked</span>
+                <div className="w-4 h-4 bg-red-500/80 rounded"></div>
+                <span className="text-indigo-200">Booked</span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 bg-gray-200 rounded"></div>
-                <span>Available</span>
+                <div className="w-4 h-4 bg-[#1E293B] border border-indigo-500/20 rounded"></div>
+                <span className="text-indigo-200">Available</span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 bg-green-500 rounded"></div>
-                <span>Selected</span>
+                <div className="w-4 h-4 bg-indigo-600 rounded"></div>
+                <span className="text-indigo-200">Selected</span>
               </div>
             </div>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 mt-6">
               <div className="mb-4">
-                <label htmlFor="booking_date" className="block mb-1 text-gray-500">Booking Date</label>
+                <label htmlFor="booking_date" className="block mb-1 text-indigo-200">Booking Date</label>
                 <input
                   type="date"
                   id="booking_date"
                   {...register("booking_date")}
-                  className="w-full p-2 border rounded bg-gray-100 text-gray-600 cursor-not-allowed"
+                  className="w-full p-2 rounded-lg bg-[#0F172A] text-indigo-200 border border-indigo-500/20 focus:border-indigo-500 cursor-not-allowed"
                   readOnly
                 />
                 {errors.booking_date && (
-                  <p className="text-red-500 text-sm">{errors.booking_date.message}</p>
+                  <p className="text-red-400 text-sm">{errors.booking_date.message}</p>
                 )}
               </div>
 
               <div className="mb-4">
-                <label htmlFor="departure_date" className="block mb-1">Departure Date</label>
+                <label htmlFor="departure_date" className="block mb-1 text-indigo-200">Departure Date</label>
                 <input
                   type="date"
                   id="departure_date"
                   {...register("departure_date")}
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2 rounded-lg bg-[#0F172A] text-indigo-200 border border-indigo-500/20 focus:border-indigo-500"
                 />
                 {errors.departure_date && (
-                  <p className="text-red-500 text-sm">{errors.departure_date.message}</p>
+                  <p className="text-red-400 text-sm">{errors.departure_date.message}</p>
                 )}
               </div>
 
-              <div className="mt-4 text-center">
-                <p className="text-lg font-semibold">Remaining Seats: <span className="text-blue-500">{remainingSeats}</span></p>
-                <p className="text-lg font-semibold">Total Amount: <span className="text-blue-500">KSh {totalAmount.toFixed(2)}</span></p>
-                <p className="text-lg font-semibold">Departure Time: <span className="text-blue-500">{vehicle.departure_time || "Not specified"}</span></p>
+              <div className="mt-4 text-center space-y-2">
+                <p className="text-lg font-semibold text-indigo-200">Remaining Seats: <span className="text-indigo-400">{remainingSeats}</span></p>
+                <p className="text-lg font-semibold text-indigo-200">Total Amount: <span className="text-indigo-400">KSh {totalAmount.toFixed(2)}</span></p>
+                <p className="text-lg font-semibold text-indigo-200">Departure Time: <span className="text-indigo-400">{vehicle.departure_time || "Not specified"}</span></p>
               </div>
 
-              <div className="flex justify-between">
-                <button type="button" onClick={onClose} className="text-gray-600 hover:text-gray-800">Cancel</button>
+              <div className="flex justify-between mt-6">
+                <button 
+                  type="button" 
+                  onClick={onClose} 
+                  className="text-indigo-200 hover:text-white transition-colors"
+                >
+                  Cancel
+                </button>
                 <button
                   type="submit"
                   disabled={isSubmitting || selectedSeats.length === 0}
-                  className={`w-full py-2 px-4 rounded-md text-white font-semibold ${
+                  className={`w-full py-2 px-4 rounded-lg text-white font-semibold transition-colors ${
                     isSubmitting || selectedSeats.length === 0
-                      ? 'bg-gray-400 cursor-not-allowed'
-                      : 'bg-blue-600 hover:bg-blue-700'
+                      ? 'bg-gray-700 cursor-not-allowed'
+                      : 'bg-indigo-600 hover:bg-indigo-500'
                   }`}
                 >
                   {isSubmitting ? (

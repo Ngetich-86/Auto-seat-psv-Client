@@ -82,16 +82,16 @@ const BookingForm: React.FC = () => {
   if (isError) return <p className="text-center text-red-500">Failed to load vehicles. Please try again later.</p>;
 
   return (
-    <div className="overflow-x-auto bg-gradient-to-r from-blue-50 via-blue-800 to-white min-h-screen shadow-lg">
-      <h1 className="text-xl font-bold text-webcolor text-center p-2">Book Now!!!</h1>
+    <div className="overflow-x-auto bg-[#0F172A] min-h-screen">
+      <h1 className="text-2xl font-bold text-white text-center p-4">Book Your Journey</h1>
 
-      {/* Filters Section - Full Width */}
+      {/* Filters Section */}
       <div className="w-full max-w-5xl mx-auto mb-4 p-4">
-        <form className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 bg-white p-4 rounded-lg shadow-md">
+        <form className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 bg-[#1E293B] p-6 rounded-2xl shadow-xl border border-indigo-500/20">
           <div>
-            <label htmlFor="departure" className="block text-sm font-medium">Departure:</label>
+            <label htmlFor="departure" className="block text-sm font-medium text-indigo-200 mb-2">Departure:</label>
             <select id="departure" value={departure} onChange={(e) => setDeparture(e.target.value)}
-              className="select select-bordered w-full">
+              className="select w-full bg-[#0F172A] text-white border-indigo-500/20 focus:border-indigo-500">
               <option value="">Select Departure</option>
               {Array.from(new Set(uniqueVehicles.map(vehicle => vehicle.departure))).map(dep => (
                 <option key={dep} value={dep}>{dep}</option>
@@ -99,9 +99,9 @@ const BookingForm: React.FC = () => {
             </select>
           </div>
           <div>
-            <label htmlFor="destination" className="block text-sm font-medium">Destination:</label>
+            <label htmlFor="destination" className="block text-sm font-medium text-indigo-200 mb-2">Destination:</label>
             <select id="destination" value={destination} onChange={(e) => setDestination(e.target.value)}
-              className="select select-bordered w-full">
+              className="select w-full bg-[#0F172A] text-white border-indigo-500/20 focus:border-indigo-500">
               <option value="">Select Destination</option>
               {Array.from(new Set(uniqueVehicles.map(vehicle => vehicle.destination))).map(dest => (
                 <option key={dest} value={dest}>{dest}</option>
@@ -109,9 +109,9 @@ const BookingForm: React.FC = () => {
             </select>
           </div>
           <div>
-            <label htmlFor="vehicleType" className="block text-sm font-medium">Vehicle Type:</label>
+            <label htmlFor="vehicleType" className="block text-sm font-medium text-indigo-200 mb-2">Vehicle Type:</label>
             <select id="vehicleType" value={vehicleType} onChange={(e) => setVehicleType(e.target.value)}
-              className="select select-bordered w-full">
+              className="select w-full bg-[#0F172A] text-white border-indigo-500/20 focus:border-indigo-500">
               <option value="">Select Vehicle Type</option>
               {Array.from(new Set(uniqueVehicles.map(vehicle => vehicle.vehicle_type))).map(type => (
                 <option key={type} value={type}>{type}</option>
@@ -119,9 +119,9 @@ const BookingForm: React.FC = () => {
             </select>
           </div>
           <div>
-            <label htmlFor="departureTime" className="block text-sm font-medium">Departure Time:</label>
+            <label htmlFor="departureTime" className="block text-sm font-medium text-indigo-200 mb-2">Departure Time:</label>
             <select id="departureTime" value={departureTime} onChange={handleDepartureTimeChange}
-              className="select select-bordered w-full">
+              className="select w-full bg-[#0F172A] text-white border-indigo-500/20 focus:border-indigo-500">
               <option value="">Select Departure Time</option>
               {Array.from(new Set(uniqueVehicles.map(vehicle => vehicle.departure_time))).map(time => (
                 <option key={time} value={time}>{time}</option>
@@ -129,9 +129,9 @@ const BookingForm: React.FC = () => {
             </select>
           </div>
           <div>
-            <label htmlFor="costRange" className="block text-sm font-medium">Cost Range:</label>
+            <label htmlFor="costRange" className="block text-sm font-medium text-indigo-200 mb-2">Cost Range:</label>
             <select id="costRange" value={costRange} onChange={handleCostRangeChange}
-              className="select select-bordered w-full">
+              className="select w-full bg-[#0F172A] text-white border-indigo-500/20 focus:border-indigo-500">
               <option value="">All Prices</option>
               <option value="1000-2000">1000 - 2000</option>
               <option value="2000-3000">2000 - 3000</option>
@@ -147,61 +147,61 @@ const BookingForm: React.FC = () => {
         {filteredVehicles.length ? (
           <div className="flex flex-col items-center w-full px-4">
             {/* Pagination Arrows */}
-            <div className="flex justify-between items-center w-full max-w-5xl px-4 mb-2">
+            <div className="flex justify-between items-center w-full max-w-5xl px-4 mb-4">
               <button
                 onClick={prevPage}
                 disabled={currentPage === 0}
-                className="px-3 py-2 text-black bg-white font-bold rounded-full hover:bg-gray-300 disabled:opacity-50"
+                className="px-4 py-2 text-white bg-indigo-600 font-bold rounded-lg hover:bg-indigo-500 disabled:opacity-50 transition-colors"
               >
                 &larr;
               </button>
-              <p className="text-white text-sm">
+              <p className="text-indigo-200 text-sm">
                 Page {currentPage + 1} of {totalPages}
               </p>
               <button
                 onClick={nextPage}
                 disabled={currentPage >= totalPages - 1}
-                className="px-3 py-2 text-black bg-white font-bold rounded-full hover:bg-gray-300 disabled:opacity-50"
+                className="px-4 py-2 text-white bg-indigo-600 font-bold rounded-lg hover:bg-indigo-500 disabled:opacity-50 transition-colors"
               >
                 &rarr;
               </button>
             </div>
 
-            {/* Vehicle Grid (3x2 layout, full visibility) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-7xl mx-auto">
+            {/* Vehicle Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-7xl mx-auto">
               {displayedVehicles.map((vehicle, index) => {
                 const remainingSeats = Math.max((vehicle.capacity - 1) - (Number(vehicle.booked_Seats) || 0), 0);
 
                 return (
                   <div
                     key={`${vehicle.registration_number}-${index}`}
-                    className={`card bg-blue-200 shadow-md rounded-lg p-4 transform transition-all duration-300 hover:scale-105 ${
+                    className={`card bg-[#1E293B] shadow-xl rounded-2xl p-4 transform transition-all duration-300 hover:scale-105 border border-indigo-500/20 ${
                       selectedVehicle?.registration_number === vehicle.registration_number
-                        ? "border-2 border-webcolor"
-                        : "border border-gray-200"
+                        ? "border-2 border-indigo-500"
+                        : ""
                     }`}
                     onClick={() => setSelectedVehicle(vehicle)}
                   >
                     <img 
                       src={vehicle.image_url} 
                       alt={vehicle.vehicle_name} 
-                      className="w-full h-40 sm:h-32 lg:h-24 object-cover rounded-lg" 
+                      className="w-full h-40 sm:h-32 lg:h-24 object-cover rounded-xl" 
                     />
-                    <div className="mt-2 space-y-1">
-                      <h3 className="text-base sm:text-sm font-semibold text-gray-800">{vehicle.vehicle_name}</h3>
-                      <p className="text-sm sm:text-xs text-gray-700">{vehicle.vehicle_type} | {vehicle.capacity} Seats</p>
-                      <p className="text-sm sm:text-xs text-gray-700">Booked: {vehicle.booked_Seats || 0} | Remaining: {remainingSeats}</p>
-                      <p className="text-sm sm:text-xs text-gray-700">Reg No: {vehicle.registration_number}</p>
-                      <p className="text-sm sm:text-xs text-gray-700">License: {vehicle.license_plate}</p>
-                      <p className="text-sm sm:text-xs text-gray-700">From: {vehicle.departure} → To: {vehicle.destination}</p>
-                      <p className="text-sm sm:text-xs text-gray-700">
-                        <strong>Departure Time: {vehicle.departure_time || "Not Available"}</strong>
+                    <div className="mt-4 space-y-2">
+                      <h3 className="text-lg font-semibold text-white">{vehicle.vehicle_name}</h3>
+                      <p className="text-indigo-200 text-sm">{vehicle.vehicle_type} | {vehicle.capacity} Seats</p>
+                      <p className="text-indigo-200 text-sm">Booked: {vehicle.booked_Seats || 0} | Remaining: {remainingSeats}</p>
+                      <p className="text-indigo-200 text-sm">Reg No: {vehicle.registration_number}</p>
+                      <p className="text-indigo-200 text-sm">License: {vehicle.license_plate}</p>
+                      <p className="text-indigo-200 text-sm">From: {vehicle.departure} → To: {vehicle.destination}</p>
+                      <p className="text-indigo-200 text-sm font-semibold">
+                        Departure Time: {vehicle.departure_time || "Not Available"}
                       </p>
-                      <p className="text-sm sm:text-xs text-gray-700"><strong>Cost: {vehicle.cost}</strong></p>
+                      <p className="text-indigo-200 text-sm font-semibold">Cost: {vehicle.cost}</p>
                       
                       {/* Availability Tag */}
-                      <div className={`text-sm sm:text-xs font-extrabold ${
-                        remainingSeats > 0 ? "text-green-600" : "text-red-600"
+                      <div className={`text-sm font-bold ${
+                        remainingSeats > 0 ? "text-green-400" : "text-red-400"
                       }`}>
                         {remainingSeats > 0 ? "Available" : "Unavailable"}
                       </div>
@@ -210,8 +210,10 @@ const BookingForm: React.FC = () => {
                         type="button"
                         onClick={() => handleMapSeatModal(vehicle)}
                         className={`btn w-full ${
-                          remainingSeats > 0 ? "bg-blue-600 hover:bg-blue-700" : "bg-gray-400 cursor-not-allowed"
-                        } text-white border-none text-sm sm:text-xs px-4 py-2 mt-2`}
+                          remainingSeats > 0 
+                            ? "bg-indigo-600 hover:bg-indigo-500 text-white" 
+                            : "bg-gray-700 text-gray-400 cursor-not-allowed"
+                        } border-none text-sm px-4 py-2 mt-2 rounded-lg transition-colors`}
                         disabled={remainingSeats === 0}
                       >
                         {remainingSeats > 0 ? "Select Seat" : "Fully Booked"}
@@ -223,7 +225,7 @@ const BookingForm: React.FC = () => {
             </div>
           </div>
         ) : (
-          <p className="text-center text-gray-400">No vehicles match your search.</p>
+          <p className="text-center text-indigo-200">No vehicles match your search.</p>
         )}
       </div>
 
