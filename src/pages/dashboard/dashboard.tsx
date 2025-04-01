@@ -78,7 +78,7 @@ const Dashboard = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-blue-800 flex flex-col">
       {/* Navbar (fixed at top) */}
       <Navbar />
 

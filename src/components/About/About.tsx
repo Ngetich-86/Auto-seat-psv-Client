@@ -3,7 +3,7 @@ import CountUp from "react-countup";
 import { useInView } from "react-intersection-observer";
 
 const AboutSection = () => {
-  const imageURL = "../../../src/assets/hero3.jpg";
+  const imageURL = "https://res.cloudinary.com/dwsxs74ow/image/upload/v1743509681/tjwecrpe9hoo6d3i9ylq.jpg";
 
   // Use the useInView hook to trigger the counting animation when the stats section comes into view
   const { ref, inView } = useInView({
