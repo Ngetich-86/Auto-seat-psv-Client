@@ -71,3 +71,5 @@ pnpm install
 ```bash
 pnpm run dev
 ```
+
+## me trying to trigger ci/cd to restart my azure app service server
